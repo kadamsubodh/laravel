@@ -122,8 +122,23 @@ function readURL(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+
 $(document).ready(function(){
 $("#file").change(function() {
   readURL(this);
+});
+});
+
+$(document).ready(function(){
+$(".delicon").click(function(){
+	alert('Are you sure want to delete this?');
+	$(this).find('form').submit();
+});
+});
+
+$(document).ready(function(){
+$(".editicon").click(function(){
+	alert('Are you sure want to update this?');
+	$(this).find('form').submit();
 });
 });

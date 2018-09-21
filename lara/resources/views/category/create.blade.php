@@ -1,5 +1,6 @@
 @extends('layout.app')
 @section ('title', 'home')
+@section('headTitle','Create Category')
 @section('body')
 <div class="container-fluid marginTopBottom">
 <form action="/category/@yield('editId')" method="POST" name="frm">

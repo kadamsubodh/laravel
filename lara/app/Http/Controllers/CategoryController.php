@@ -12,7 +12,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   $categories = category::all(); 
+    {   $categories = category::paginate(2); 
         return view('category.home', compact('categories'));
     }
 
@@ -49,7 +49,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-       //
+       return "hello";
     }
 
     /**
@@ -89,6 +89,16 @@ class CategoryController extends Controller
     {
         $deleteCategory=category::find($id);
         $deleteCategory->delete();
+        return redirect('category');
+    }
+     public function deleteAll(Request $request)
+    {
+       $categories= $request->input('check_list');
+       foreach($categories as $category)
+       {
+            $cat= category::find($category);
+        $cat->delete();
+       }
         return redirect('category');
     }
 }

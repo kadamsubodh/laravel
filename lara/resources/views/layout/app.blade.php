@@ -44,10 +44,10 @@
 					<div class="col-md-1 dropdown">
 							<button  class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
 							 <ul class="dropdown-menu dropMenu">
-      							<li><a href="main.php">Add Category</a></li>
-    							  <li><a href="manageCategory.php">Manage Category</a></li>
-    							  <li><a href="product.php">Add Product</a></li>
-    							  <li><a href="manageProduct.php">ManageProduct</a></li>
+      							<li><a href="/category">Category</a></li>
+    							  <!-- <li><a href="manageCategory.php">Manage Category</a></li> -->
+    							  <li><a href="/product">Add Product</a></li>
+    							 <!--  <li><a href="manageProduct.php">ManageProduct</a></li> -->
     						</ul>
     					
     				</div>
@@ -56,7 +56,7 @@
 		</div>
 	</header>
 <div class="container-fluid name text-center">  
-<span class="text12">{{ucfirst(substr(Route::currentRouteName(),9))}} Category </span>
+<span class="text12">@yield("headTitle") </span>
 </div>
 	@section ('body')
 	@show

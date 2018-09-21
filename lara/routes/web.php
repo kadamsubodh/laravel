@@ -12,4 +12,6 @@
 */
 
 Route::resource('category','CategoryController');
-Route::post('category/delete',['uses=>CategoryController@destroyAll']);
+Route::POST('deleteSelectedCategories','CategoryController@deleteAll');
+Route::resource('product', 'ProductController');
+Route::POST('deleteSelectedProducts','ProductController@deleteAllProduct');
