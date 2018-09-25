@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\category;
 class CategoryController extends Controller
 {
@@ -12,7 +13,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   $categories = category::paginate(2); 
+    {   $categories = category::paginate(3); 
         return view('category.home', compact('categories'));
     }
 
@@ -34,10 +35,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $cat = new category();
-        $cat->cat_name = $request->categoryName;
-        $cat->save();
-        return redirect('category');
+        try{
+            $cat = new category();
+             $cat->cat_name = $request->categoryName;
+             $v=$cat->save();
+         }
+         catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'some problem is there');
+                    return redirect('category');
+                }
+        }
+        if($v)
+        {
+            Session::flash('alert-success', 'category added');
+            return redirect('category');
+                   
+        }  
+        // return redirect('category');
 
     }
 
@@ -49,7 +66,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-       return "hello";
+       // return "hello";
     }
 
     /**
@@ -73,10 +90,26 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cat =category::find($id);
-        $cat->cat_name = $request->categoryName;
-        $cat->save();
-        return redirect('category');
+        try{
+            $cat =category::find($id);
+            $cat->cat_name = $request->categoryName;
+            $v=$cat->save();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'Can\'t update category.');
+                    return redirect('category');
+                }
+        }
+        if($v)
+        {
+            Session::flash('alert-success', 'category updated');
+            return redirect('category');
+                   
+        }   
+        // return redirect('category');
     }
 
     /**
@@ -87,18 +120,53 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $deleteCategory=category::find($id);
-        $deleteCategory->delete();
-        return redirect('category');
+        try{
+            $deleteCategory=category::find($id);
+            $v1 = $deleteCategory->delete();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+                $var1=count($e);
+                if($var1>0)
+                {
+                 Session::flash('alert-danger', 'Can\'t delete catgeory as it contains some products');
+                    return redirect('category');
+                }
+        }
+        if($v1)
+        {
+            Session::flash('alert-success', 'category deleted');
+            return redirect('category');
+                   
+        }   
     }
+
      public function deleteAll(Request $request)
     {
        $categories= $request->input('check_list');
-       foreach($categories as $category)
-       {
-            $cat= category::find($category);
-        $cat->delete();
-       }
-        return redirect('category');
-    }
+      
+      try{
+            foreach($categories as $category)
+            {
+                $cat= category::find($category);
+                $v=$cat->delete();
+            }
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                  
+                     $request->session()->flash('alert-danger', 'Can\'t delete catgeory as it contains some products');
+                    return redirect('category');
+                }
+        }
+        if($v)
+        {
+            $request->session()->flash('alert-success', 'category deleted');
+            return redirect('category');
+                   
+        }   
+        } 
+    
+
 }

@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-11">
+					<div class="col-md-12">
 						<nav>
 							
 							<a href="#" class="active">HOME</a>
@@ -39,17 +39,18 @@
 							<a href="#">WHY VITTAL</a>
 							<a href="#">REVIEWS</a>
 							<a href="#">CONTACT US</a>
-						</nav>
-					</div>
-					<div class="col-md-1 dropdown">
+					<!-- 	</nav>
+					</div> -->
+					<div class="dropdown" style="display: inline-block;">
 							<button  class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
 							 <ul class="dropdown-menu dropMenu">
-      							<li><a href="/category">Category</a></li>
+      							<li><a href="/category">All Categories</a></li>
     							  <!-- <li><a href="manageCategory.php">Manage Category</a></li> -->
-    							  <li><a href="/product">Add Product</a></li>
+    							  <li><a href="/product">All Products</a></li>
     							 <!--  <li><a href="manageProduct.php">ManageProduct</a></li> -->
     						</ul>
-    					
+    					</div>
+    				</nav>
     				</div>
 				</div>
 			</div>
@@ -58,6 +59,14 @@
 <div class="container-fluid name text-center">  
 <span class="text12">@yield("headTitle") </span>
 </div>
+<div class="flash-message">
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+      @if(Session::has('alert-' . $msg))
+
+      <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+      @endif
+    @endforeach
+  </div>
 	@section ('body')
 	@show
 	<div class="container-fluid divBack5">
@@ -187,11 +196,11 @@
 		<div class="col-md-4">
 			<ul class="footerUl2">
 				<li class="gray">Follow us</li>
-				<li><a href="#"><img src="images/icon10.png"></a></li>
-				<li><a href="#"><img src="images/icon11.png"></a></li>
-				<li><a href="#"><img src="images/icon12.png"></a></li>
-				<li><a href="#"><img src="images/icon13.png"></a></li>
-				<li><a href="#"><img src="images/icon14.png"></a></li>
+				<li><a href="#"><img src="{{asset('images/icon10.png')}}"></a></li>
+				<li><a href="#"><img src="{{asset('images/icon11.png')}}"></a></li>
+				<li><a href="#"><img src="{{asset('images/icon12.png')}}"></a></li>
+				<li><a href="#"><img src="{{asset('images/icon13.png')}}"></a></li>
+				<li><a href="#"><img src="{{asset('images/icon14.png')}}"></a></li>
 			</ul>	
 		</div>
 	</div>

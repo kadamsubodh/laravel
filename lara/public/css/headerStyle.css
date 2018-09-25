@@ -38,6 +38,7 @@ margin:0px;
 .tableDiv{
 	width:100%;
 	padding:3px;
+	overflow:auto;
 
 }
 .tableDiv tbody tr td{
@@ -81,6 +82,7 @@ text-decoration:none;
 	margin-left:20px;
 	margin-right:30px;
 	padding-right:50px;
+
 }
 .hidden{
 	visibility: hidden;

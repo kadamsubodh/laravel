@@ -2,6 +2,7 @@
 @section('editFormMethod')
 {{method_field('PUT')}}
 @endsection
+@section ('headTitle','Edit Product')
 @section('product_name',$products->product_name)
 @section('product_price',$products->product_price)
 @section('image')

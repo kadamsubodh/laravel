@@ -39,8 +39,15 @@ $(document).ready(function(){
 		return false;
 	}
 	else{
-		confirm("Caution! this action cannot be undone!! Are you sure wantt to delete this??");
-		return true;
+		var v=confirm("Caution! this action cannot be undone!! Are you sure wantt to delete this??");
+		if(v)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 			
 });

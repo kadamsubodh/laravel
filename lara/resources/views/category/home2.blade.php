@@ -44,13 +44,13 @@
 							<div class="row" style="margin-left:0px" id="">
 								<!-- <a href="{{'/category/'.$cat->id}}" );"> -->
 								<div class="btn">
-									<a href="javascript:void(0);" class="delicon">
-								<form action="{{'/category/'.$cat->id }}" method="post" id="f1">	
+									<button class="delicon" value="{{$cat->id}}">
+								<!-- <form action="{{'/category/'.$cat->id }}" method="post" id="f1">	
 									{{csrf_field()}}
 									{{method_field('delete')}}
 								<input type="hidden" value="DELETE" name="_method" form="f1"/>
-								</form>
-								</a>
+								</form> -->
+								</button>
 							</div>
 						
 							<div class="btn">

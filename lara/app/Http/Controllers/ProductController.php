@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\category;
 use App\product;
+use Illuminate\Support\Facades\Session;
 class ProductController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=product::with('category')->paginate(2);
+        $products=product::with('category')->paginate(3);
         return view('product.productHome',compact('products'));
     }
 
@@ -25,7 +26,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        
         return view("product.createProduct");
     }
 
@@ -37,21 +37,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $filename="noimages.jpeg";
-        if($request->hasFile('file'))
-        {
+       try{
+            $filename="noimages.jpeg";
+            if($request->hasFile('file'))
+            {
 
-            $filename=$request->file->getClientOriginalName();
-            $request->file->storeAs('public/uploads', $filename);
+                $filename=$request->file->getClientOriginalName();
+                $request->file->storeAs('public/uploads', $filename);
+            }
+
+            $product= new product();
+            $product->category_id=$request->select;
+            $product->product_name=$request->productName;
+            $product->product_price=$request->productPrice;
+            $product->product_img=$filename;
+            $v = $product->save();
         }
-
-       $product= new product();
-       $product->category_id=$request->select;
-       $product->product_name=$request->productName;
-        $product->product_price=$request->productPrice;
-         $product->product_img=$filename;
-         $product->save();
-         return redirect('product');
+        catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'some problem is there');
+                    return redirect('product');
+                }
+        }
+        if($v)
+        {
+            Session::flash('alert-success', 'product added');
+            return redirect('product');
+                   
+        }
+            
     }
 
     /**
@@ -86,19 +102,35 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $filename=Product::find($id)->product_img;
-        if($request->hasFile('file'))
-        {
+        try{
+                $filename=Product::find($id)->product_img;
+                if($request->hasFile('file'))
+                {
 
-            $filename=$request->file->getClientOriginalName();
-            $request->file->storeAs('public/uploads', $filename);
+                    $filename=$request->file->getClientOriginalName();
+                    $request->file->storeAs('public/uploads', $filename);
+                }
+                $product=product::find($id);
+                $product->category_id=$request->select;
+                $product->product_name=$request->productName;
+                $product->product_price=$request->productPrice;
+                $product->product_img=$filename;
+                $v=$product->save();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'some problem is there');
+                    return redirect('product');
+                }
         }
-        $product=product::find($id);
-        $product->category_id=$request->select;
-       $product->product_name=$request->productName;
-        $product->product_price=$request->productPrice;
-         $product->product_img=$filename;
-         $product->save();
+        if($v)
+        {
+            Session::flash('alert-success', 'product information updated');
+            return redirect('product');
+                   
+        }
          return redirect('product');
     }
 
@@ -110,18 +142,49 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-       $deleteProduct=product::find($id);
-        $deleteProduct->delete();
-        return redirect('product');
+       try{
+        $deleteProduct=product::find($id);
+        $v= $deleteProduct->delete();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'some problem is there');
+                    return redirect('product');
+                }
+        }
+        if($v)
+        {
+            Session::flash('alert-success', 'product deleted');
+            return redirect('product');
+                   
+        }
+       
     }
      public function deleteAllProduct(Request $request)
     {
-       $products= $request->input('check_list');
-       foreach($products as $product)
-       {
-            $prod= product::find($product);
-        $prod->delete();
-       }
-        return redirect('product');
+       try{
+            $products= $request->input('check_list');
+            foreach($products as $product)
+            {
+                $prod= product::find($product);
+                $v= $prod->delete();
+            }
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+                $var=count($e);
+                if($var>0)
+                {
+                 Session::flash('alert-danger', 'some problem is there');
+                    return redirect('product');
+                }
+        }
+        if($v)
+        {
+            Session::flash('alert-success', 'products deleted');
+            return redirect('product');
+                   
+        };
     }
 }

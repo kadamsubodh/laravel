@@ -75,6 +75,7 @@ padding-bottom: 5%;
 .divBack5{
 	background-color: #333232;;
 	color:white;
+	width:100%;
 }
 .postUl{
 	list-style-image:url("images/icon4.png");
